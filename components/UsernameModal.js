@@ -11,10 +11,10 @@ export default function UserNameModal() {
     const response = await fetch("http://localhost:3000/users/new-user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: username.toLowerCase }),
+      body: JSON.stringify({ username: username.toLowerCase() }),
     });
     const data = await response.json();
-    dispatch(addUsername(username));
+    dispatch(addUsername(username.toLowerCase()));
     setUsername("");
   };
 

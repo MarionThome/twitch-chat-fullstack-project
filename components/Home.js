@@ -9,50 +9,61 @@ const PUSHER_CLUSTER = process.env.REACT_APP_PUSHER_CLUSTER;
 
 export default function Home() {
   const username = useSelector((state) => state.user.value.username);
-  const [messageList, setMessageList] = useState([])
+  const [messageList, setMessageList] = useState([]);
+  const [userList, setUserList] = useState([])
 
-  const fetchMessages = async () => {
-    const response = await fetch("http://localhost:3000/messages", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await response.json();
-    if (data.result) {
-      setMessageList(
-        data.messages.sort((first, sec) => {
-          return new Date(sec.date) + new Date(first.date);
-        })
-      );
-    }
-  }
+    useEffect(() => {
 
-  useEffect(() => {
-    const pusher = new Pusher(PUSHER_KEY, {
-      cluster: PUSHER_CLUSTER,
-      forceTLS: true,
-    });
+      const pusher = new Pusher(PUSHER_KEY, {
+        cluster: PUSHER_CLUSTER,
+        forceTLS: true,
+      });
 
-    fetchMessages()
-    
-    const channel = pusher.subscribe("chat");
-    channel.bind("message", (newMessage) => {
-      setChats((prev) => [...prev, newMessage]);
-    });
+      //get the list of existing messages  in db
+  
+      fetch("http://localhost:3000/messages", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }).then(res => res.json()).then((data) => {
+        if(data.result){
+          setMessageList(
+            data.messages.sort((first, sec) => {
+              return new Date(sec.date) + new Date(first.date);
+            })
+          );
+        }
+      })
 
-    return () => {
-      pusher.unsubscribe("chat");
-    };
-    
-  }, []);
+      // get the list of users from db
 
-  console.log(messageList)
+      fetch("http://localhost:3000/users/all", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }).then(res => res.json()).then((data) => {
+        if(data.result){
+          setUserList(data.users)
+        }
+      })
+
+      // connect to pusher and listens events
+
+      const channel = pusher.subscribe("chat");
+      channel.bind("message", (newMessage) => {
+        setMessageList((prev) => [...prev, newMessage]);
+      })
+  
+      return () => {
+        pusher.unsubscribe("chat");
+      };
+    }, []);
+
+
 
   return (
-  <main className={styles.main}>
-    <div style={{marginBottom : "10px"}}>
-      logout
-    </div>
-    {!username && <UserNameModal/>}
-    <ChatRoom messages={messageList}/>
-  </main>);
+    <main className={styles.main}>
+      <div style={{ marginBottom: "10px" }}>logout</div>
+      {!username && <UserNameModal />}
+      <ChatRoom messages={messageList} users={userList}/>
+    </main>
+  );
 }
