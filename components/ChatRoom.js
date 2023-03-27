@@ -21,10 +21,13 @@ export default function ChatRoom(props) {
       setNewMessage("");
     }
   }
-
+  
   const messagesToDisplay = messages.map((message, index) => {
     // is supposed to get the proper color and assign it to the right user -> NEED OPTIM
-    const textColor = props.users.find(user => message.author === user.username).color
+    const userTalking = props.users.find(user => message.author === user.username)
+    const textColor = userTalking && userTalking.color || "black"
+    
+    console.log(props.users.find(user => message.author === user.username))
     if (message.author === username) {
       return (
         <div key={index}>
@@ -49,7 +52,7 @@ export default function ChatRoom(props) {
   });
   return (
     <div style={{ backgroundColor: "white" }}>
-      <div>{messagesToDisplay}</div>
+      <div>{messages.length > 0 && messagesToDisplay}</div>
       <textarea onChange={(e) => setNewMessage(e.target.value)} onKeyDown={handleSubmit} value={newMessage}/>
     </div>
   );

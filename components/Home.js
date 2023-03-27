@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { resetUsername } from "../reducers/user";
 import styles from "../styles/Home.module.css";
 import Pusher from "pusher-js";
 import ChatRoom from "./ChatRoom";
@@ -11,6 +12,7 @@ export default function Home() {
   const username = useSelector((state) => state.user.value.username);
   const [messageList, setMessageList] = useState([]);
   const [userList, setUserList] = useState([])
+  const dispatch = useDispatch()
 
     useEffect(() => {
 
@@ -52,6 +54,7 @@ export default function Home() {
         setMessageList((prev) => [...prev, newMessage]);
       })
   
+      // will disconect from pusher when component is unmounted 
       return () => {
         pusher.unsubscribe("chat");
       };
@@ -61,7 +64,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <div style={{ marginBottom: "10px" }}>logout</div>
+      <div style={{ marginBottom: "10px" }} onClick={() => dispatch(resetUsername())}>logout</div>
       {!username && <UserNameModal />}
       <ChatRoom messages={messageList} users={userList}/>
     </main>
