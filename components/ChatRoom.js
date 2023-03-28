@@ -39,7 +39,7 @@ export default function ChatRoom(props) {
     const userTalking = props.users.find(
       (user) => message.author === user.username
     );
-    const textColor = (userTalking && userTalking.color) || "black";
+    const textColor = (userTalking && userTalking.color) || "#aea9b7";
 
     console.log(props.users.find((user) => message.author === user.username));
     if (message.author === username) {
@@ -67,6 +67,7 @@ export default function ChatRoom(props) {
       </div>
       <div className={styles.chatRoomInputContainer}>
         <textarea
+          placeholder="your message"
           className={styles.chatRoomInput}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={handleSubmit}

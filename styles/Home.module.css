@@ -5,3 +5,9 @@
   margin: auto;
   vertical-align: middle;
 }
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}

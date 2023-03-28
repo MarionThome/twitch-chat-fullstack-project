@@ -13,10 +13,8 @@
 
 .modalContent {
     background-color: white;
-    width: 50%;
     max-height: 60%;
     border-radius: 20px;
-  
     padding: 30px;
     display: flex;
     flex-direction: column;

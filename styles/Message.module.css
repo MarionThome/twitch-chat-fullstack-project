@@ -1,10 +1,11 @@
 .date {
   font-size: 14px;
-  color: #9abcbc;
+  color: #a9a9b0;
+  margin-top: 3px;
 }
 
 .messageText {
-    background-color: #a9b5b7;
+    background-color: #a9a9b0;
     margin: 5px 0 0 0;
     color: white;
     padding: 20px 30px;
@@ -15,5 +16,9 @@
 
 .author{
     opacity: 0.8;
-    font-Weight: bold
+    font-size: 18px;
+    text-shadow : 1px 1px rgb(200, 197, 197);
+    font-weight: bold;
+    margin-bottom: 0px;
 }
+

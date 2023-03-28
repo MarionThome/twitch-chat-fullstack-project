@@ -28,8 +28,8 @@ export default function UserNameModal(props) {
   return (
     <div className={styles.modalMain}>
       <div className={styles.modalContent}>
-        <h2>Welcome !</h2>
-        <p>to start chatting, write your username and press Enter</p>
+        <h2>Welcome stranger!</h2>
+        <p>To access the chat, please write your username and press Enter</p>
         <input
           type="text"
           placeholder="username"

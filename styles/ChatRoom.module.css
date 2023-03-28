@@ -35,9 +35,10 @@
     border-radius: 5px;
     padding: 10px;
     resize: none;
-    border: 1px #9abcbc solid ;
+    border: 1px #bc9a9a solid ;
     font-size: 17px;
     font-family: sans-serif;
+    color: #bc9a9a;
 }
 
 .chatRoomInputContainer textarea:focus{
