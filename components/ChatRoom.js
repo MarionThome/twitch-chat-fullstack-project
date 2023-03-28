@@ -11,8 +11,6 @@ export default function ChatRoom(props) {
   const [newMessage, setNewMessage] = useState("");
   const lastMessage = useRef(null);
 
-  console.log(messages)
-
   const scrollToBottom = () => {
     lastMessage.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -22,7 +20,7 @@ export default function ChatRoom(props) {
   }, [messages]);
 
   const handleSubmit = (e) => {
-    if (e.key === "Enter" || e.keyCode === 13) {
+    if ((e.key === "Enter" || e.keyCode === 13) && newMessage) {
       e.preventDefault();
       const payload = {
         username: username,
@@ -41,7 +39,6 @@ export default function ChatRoom(props) {
     );
     const textColor = (userTalking && userTalking.color) || "#aea9b7";
 
-    console.log(props.users.find((user) => message.author === user.username));
     if (message.author === username) {
       return (
         <div key={index} className={styles.message} style={{ alignItems: "flex-end" }}>

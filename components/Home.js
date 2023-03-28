@@ -54,8 +54,26 @@ export default function Home() {
 
     const channel = pusher.subscribe("chat");
     channel.bind("message", (newMessage) => {
+      console.log("New Message=>", newMessage)
       setMessageList((prev) => [...prev, newMessage]);
     });
+
+    channel.bind("messageToUpdate", (messageToUpdate) => {
+      channel.bind("messageToUpdate", (messageToUpdate) => {
+        const newList = messageList.map((e) => {
+          if (e._id === messageToUpdate.id) {
+            return {
+              ...e,
+              message: messageToUpdate.message
+            };
+          }
+          return e;
+        })
+        console.log(newList)
+        setTimeout(() => {
+          setMessageList(newList)
+       }, 200);
+    });})
 
     // will disconect from pusher when component is unmounted
     return () => {
