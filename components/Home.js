@@ -47,7 +47,7 @@ export default function Home() {
         }
       })
 
-      // connect to pusher and listens events
+      // connect to pusher (channel chat) and listens events (message)
 
       const channel = pusher.subscribe("chat");
       channel.bind("message", (newMessage) => {
@@ -64,9 +64,11 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
+      <div className={styles.content}>
       <div style={{ marginBottom: "10px" }} onClick={() => dispatch(resetUsername())}>logout</div>
       {!username && <UserNameModal />}
       <ChatRoom messages={messageList} users={userList}/>
+      </div>
     </main>
   );
 }

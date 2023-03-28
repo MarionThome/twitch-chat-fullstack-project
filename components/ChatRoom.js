@@ -1,14 +1,25 @@
 import styles from "../styles/ChatRoom.module.css";
 import Message from "./Message";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import moment from "moment";
-import axios from "axios"
+import axios from "axios";
 
 export default function ChatRoom(props) {
   const messages = props.messages;
   const username = useSelector((state) => state.user.value.username);
   const [newMessage, setNewMessage] = useState("");
+  const lastMessage = useRef(null);
+
+  console.log(messages)
+
+  const scrollToBottom = () => {
+    lastMessage.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+    useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSubmit = (e) => {
     if (e.key === "Enter" || e.keyCode === 13) {
@@ -19,41 +30,52 @@ export default function ChatRoom(props) {
       };
       axios.post("http://localhost:3000/send-message", payload);
       setNewMessage("");
+      scrollToBottom();
     }
-  }
-  
+  };
+
   const messagesToDisplay = messages.map((message, index) => {
-    // is supposed to get the proper color and assign it to the right user -> NEED OPTIM
-    const userTalking = props.users.find(user => message.author === user.username)
-    const textColor = userTalking && userTalking.color || "black"
-    
-    console.log(props.users.find(user => message.author === user.username))
+    // assign color to users
+    const userTalking = props.users.find(
+      (user) => message.author === user.username
+    );
+    const textColor = (userTalking && userTalking.color) || "black";
+
+    console.log(props.users.find((user) => message.author === user.username));
     if (message.author === username) {
       return (
-        <div key={index}>
-          <p style={{color : textColor}}>{message.author}</p>
-          <p>{message.message}</p>
-          <p>{moment(message.date).calendar()}</p>
+        <div key={index} className={styles.message} style={{ alignItems: "flex-end" }}>
+          <Message {...message} color={textColor}/>
         </div>
       );
     } else {
       return (
-        <div key={index}>
-          <p style={{color : textColor}}>{message.author}</p>
-          <div>
-            <p>{message.message}</p>
-          </div>
-          <div>
-            <p>{moment(message.date).calendar()}</p>
-          </div>
+        <div key={index} className={styles.message}>
+         <Message {...message} color={textColor}/>
         </div>
       );
     }
   });
   return (
-    <div style={{ backgroundColor: "white" }}>
-      <div>{messages.length > 0 && messagesToDisplay}</div>
-      <textarea onChange={(e) => setNewMessage(e.target.value)} onKeyDown={handleSubmit} value={newMessage}/>
+    <div
+      style={{ backgroundColor: "white" }}
+      className={styles.chatRoomMain}
+    >
+      <div> 
+      <div className={styles.messagesContainer}>
+        {messages.length > 0 && messagesToDisplay}
+        <div ref={lastMessage}></div>
+      </div>
+      <div className={styles.chatRoomInputContainer}>
+        <textarea
+          className={styles.chatRoomInput}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={handleSubmit}
+          value={newMessage}
+        />
+      </div>
+
+      </div>
     </div>
   );
 }
