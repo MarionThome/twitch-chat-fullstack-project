@@ -3,7 +3,7 @@ import styles from "../styles/UserNameModal.module.css";
 import { useDispatch } from "react-redux";
 import { addUsername } from "../reducers/user";
 
-export default function UserNameModal() {
+export default function UserNameModal(props) {
   const [username, setUsername] = useState("");
   const dispatch = useDispatch()
 
@@ -14,6 +14,7 @@ export default function UserNameModal() {
       body: JSON.stringify({ username: username.toLowerCase() }),
     });
     const data = await response.json();
+    props.welcomeMessage(data.result, username)
     dispatch(addUsername(username.toLowerCase()));
     setUsername("");
   };

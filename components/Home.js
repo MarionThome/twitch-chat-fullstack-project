@@ -10,9 +10,19 @@ const PUSHER_CLUSTER = process.env.REACT_APP_PUSHER_CLUSTER;
 
 export default function Home() {
   const username = useSelector((state) => state.user.value.username);
+  const [welcome, setWelcome] = useState("") 
   const [messageList, setMessageList] = useState([]);
   const [userList, setUserList] = useState([])
   const dispatch = useDispatch()
+
+    const welcomeMessage = (bool, name) => {
+      if(!bool){
+        setWelcome(`Welcome back ${name} !`)
+      }else {
+        setWelcome(`Welcome ${name}, to start chating, write your message and press enter`)
+      }
+
+    }
 
     useEffect(() => {
 
@@ -65,8 +75,9 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.content}>
+      <div>{welcome}</div>
       <div style={{ marginBottom: "10px" }} onClick={() => dispatch(resetUsername())}>logout</div>
-      {!username && <UserNameModal />}
+      {!username && <UserNameModal welcomeMessage={welcomeMessage}/>}
       <ChatRoom messages={messageList} users={userList}/>
       </div>
     </main>

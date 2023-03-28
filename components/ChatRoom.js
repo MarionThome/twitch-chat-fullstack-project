@@ -58,7 +58,6 @@ export default function ChatRoom(props) {
   });
   return (
     <div
-      style={{ backgroundColor: "white" }}
       className={styles.chatRoomMain}
     >
       <div> 
