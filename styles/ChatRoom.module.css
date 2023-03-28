@@ -39,6 +39,10 @@
     font-family: sans-serif;
 }
 
+.chatRoomInputContainer textarea:focus{
+    outline: none;
+}
+
 .message{
     display: flex;
     flex-direction: column;

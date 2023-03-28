@@ -45,12 +45,12 @@ export default function ChatRoom(props) {
     if (message.author === username) {
       return (
         <div key={index} className={styles.message} style={{ alignItems: "flex-end" }}>
-          <Message {...message} color={textColor}/>
+          <Message {...message} color={textColor} isAuthor={true}/>
         </div>
       );
     } else {
       return (
-        <div key={index} className={styles.message}>
+        <div key={index} className={styles.message} style={{ alignItems: "flex-start" }}>
          <Message {...message} color={textColor}/>
         </div>
       );

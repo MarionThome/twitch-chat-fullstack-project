@@ -1,0 +1,18 @@
+.date {
+  font-size: 14px;
+  color: #9abcbc;
+}
+
+.messageText {
+    background-color: #a9b5b7;
+    margin: 5px 0 0 0;
+    color: white;
+    padding: 20px 30px;
+    max-width: 300px;
+	border-radius: 1rem;
+}
+
+.author{
+    opacity: 0.8;
+    font-Weight: bold
+}
