@@ -50,10 +50,9 @@ export default function Home() {
         }
       });
 
-    // connect to pusher (channel "chat") 
-    
+    // connect to pusher (channel "chat")
     const channel = pusher.subscribe("chat");
-    
+
     //listens event message from backend
     channel.bind("message", (newMessage) => {
       setMessageList((prev) => [...prev, newMessage]);
@@ -77,7 +76,6 @@ export default function Home() {
 
     // listens events (delete) from backend => the message is not deleted from db but only its content
     channel.bind("messageToRemove", (messageToRemove) => {
-      console.log("MAP =>", messageList);
       setMessageList((prev) =>
         prev.map((e) => {
           if (e._id === messageToRemove.id) {
@@ -100,7 +98,6 @@ export default function Home() {
 
   useEffect(() => {
     if (username) {
-      
       // get the list of users from db onload and after username change in order to get the proper associated colors
       fetch("http://localhost:3000/users/all", {
         method: "GET",
