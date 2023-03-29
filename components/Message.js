@@ -9,12 +9,14 @@ export default function Message(props) {
   const [message, setMessage] = useState(props.message);
   const inputRef = useRef(null);
 
+  // focus on input when edit is true => this allow the to edit input to be more explicit
   useEffect(() => {
     if (toEdit) {
       inputRef.current.focus();
     }
   }, [toEdit]);
 
+  // function edit mesage : call the update message route
   const editMessage = () => {
     setToEdit(!toEdit);
     if (message !== props.message) {
@@ -23,25 +25,19 @@ export default function Message(props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: message }),
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-        });
     }
   };
 
+  // function remove message : call the remove-message route
   const removeMessage = () => {
     fetch(`http://localhost:3000/remove-message/${props._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: message }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
   };
 
+  // the trashcan and edit icon will only be visible on the messages of the user and only if they were not deleted
   const messageOptions = () => {
     if (props.isAuthor && !props.deleted) {
       return (

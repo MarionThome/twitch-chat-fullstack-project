@@ -27,15 +27,13 @@ export default function Home() {
     }
   };
 
-  console.log("MessageList =>", messageList)
-
   useEffect(() => {
     const pusher = new Pusher(PUSHER_KEY, {
       cluster: PUSHER_CLUSTER,
       forceTLS: true,
     });
 
-    //get the list of existing messages  in db
+    //get the list of existing messages  in db and set message list
 
     fetch("http://localhost:3000/messages", {
       method: "GET",
@@ -49,48 +47,49 @@ export default function Home() {
               return new Date(first.date) - new Date(sec.date);
             })
           );
-          console.log("1 =>", messageList);
         }
       });
 
-    // connect to pusher (channel chat) and listens events (message)
-
+    // connect to pusher (channel "chat") 
+    
     const channel = pusher.subscribe("chat");
-
+    
+    //listens event message from backend
     channel.bind("message", (newMessage) => {
-      console.log("New Message=>", newMessage);
       setMessageList((prev) => [...prev, newMessage]);
-      console.log("2 =>", messageList);
     });
 
-    // connect to pusher (channel chat) and listens events (update)
+    // listens events update from backend
     channel.bind("messageToUpdate", (messageToUpdate) => {
-      console.log("MAP =>", messageList);
-      setMessageList((prev) => prev.map((e) => {
-        if (e._id === messageToUpdate.id) {
-          return {
-            ...e,
-            message: messageToUpdate.message,
-            edited : true
-          };
-        }
-        return e;
-      }))
+      setMessageList((prev) =>
+        prev.map((e) => {
+          if (e._id === messageToUpdate.id) {
+            return {
+              ...e,
+              message: messageToUpdate.message,
+              edited: true,
+            };
+          }
+          return e;
+        })
+      );
     });
 
-        // connect to pusher (channel chat) and listens events (delete) => the message is not deleted from db but only its content
+    // listens events (delete) from backend => the message is not deleted from db but only its content
     channel.bind("messageToRemove", (messageToRemove) => {
       console.log("MAP =>", messageList);
-      setMessageList((prev) => prev.map((e) => {
-        if (e._id === messageToRemove.id) {
-          return {
-            ...e,
-            message: messageToRemove.message,
-            deleted : true
-          };
-        }
-        return e;
-      }))
+      setMessageList((prev) =>
+        prev.map((e) => {
+          if (e._id === messageToRemove.id) {
+            return {
+              ...e,
+              message: messageToRemove.message,
+              deleted: true,
+            };
+          }
+          return e;
+        })
+      );
     });
 
     // will disconect from pusher when component is unmounted
@@ -101,8 +100,8 @@ export default function Home() {
 
   useEffect(() => {
     if (username) {
-      // get the list of users from db
-
+      
+      // get the list of users from db onload and after username change in order to get the proper associated colors
       fetch("http://localhost:3000/users/all", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -115,8 +114,6 @@ export default function Home() {
         });
     }
   }, [username]);
-
-  console.log("5 =>", messageList);
 
   return (
     <main className={styles.main}>

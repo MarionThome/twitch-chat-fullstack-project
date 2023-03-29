@@ -7,6 +7,7 @@ export default function UserNameModal(props) {
   const [username, setUsername] = useState("");
   const dispatch = useDispatch()
 
+  // call the new-user route to check if user exist or create a new user if it does not
   const fetchUser = async () => {
     const response = await fetch("http://localhost:3000/users/new-user", {
       method: "POST",
@@ -19,6 +20,7 @@ export default function UserNameModal(props) {
     setUsername("");
   };
 
+  // will call fetch user function when enter key is pressed
   const handleKeyDown = (e) => {
     if ((e.key === "enter" || e.keyCode === 13) && username) {
         fetchUser()

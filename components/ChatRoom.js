@@ -2,8 +2,6 @@ import styles from "../styles/ChatRoom.module.css";
 import Message from "./Message";
 import { useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
-import moment from "moment";
-import axios from "axios";
 
 export default function ChatRoom(props) {
   const messages = props.messages;
@@ -15,26 +13,30 @@ export default function ChatRoom(props) {
     lastMessage.current.scrollIntoView({ behavior: "smooth" });
   };
 
-    useEffect(() => {
+  useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
   const sendMessage = () => {
-    if(newMessage){
+    if (newMessage) {
       const payload = {
         username: username,
         message: newMessage,
       };
-      axios.post("http://localhost:3000/send-message", payload);
+      fetch(`http://localhost:3000/send-message`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
       setNewMessage("");
       scrollToBottom();
     }
-  }
+  };
 
   const handleKeyDown = (e) => {
-    if ((e.key === "Enter" || e.keyCode === 13)) {
+    if (e.key === "Enter" || e.keyCode === 13) {
       e.preventDefault();
-      sendMessage()
+      sendMessage();
     }
   };
 
@@ -47,38 +49,56 @@ export default function ChatRoom(props) {
 
     if (message.author === username) {
       return (
-        <div key={index} className={styles.message} style={{ alignItems: "flex-end" }}>
-          <Message {...message} color={textColor} isAuthor={true}/>
+        <div
+          key={index}
+          className={styles.message}
+          style={{ alignItems: "flex-end" }}
+        >
+          <Message {...message} color={textColor} isAuthor={true} />
         </div>
       );
     } else {
       return (
-        <div key={index} className={styles.message} style={{ alignItems: "flex-start" }}>
-         <Message {...message} color={textColor}/>
+        <div
+          key={index}
+          className={styles.message}
+          style={{ alignItems: "flex-start" }}
+        >
+          <Message {...message} color={textColor} />
         </div>
       );
     }
   });
-  return (
-    <div
-      className={styles.chatRoomMain}
-    >
-      <div> 
-      <div className={styles.messagesContainer}>
-        {messages.length > 0 && messagesToDisplay}
-        <div ref={lastMessage}></div>
-      </div>
-      <div className={styles.chatRoomInputContainer}>
-        <textarea
-          placeholder="your message"
-          className={styles.chatRoomInput}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyDown={handleKeyDown}
-          value={newMessage}
-        />
-        <button onClick={sendMessage} disabled={newMessage !=="" ? false : true} style={{cursor : newMessage === "" ? "not-allowed" : "pointer", backgroundColor : newMessage === "" ?  "rgb(111, 42, 72, 0.6)" : "rgb(111, 42, 72, 1)" }}>send</button>
-      </div>
 
+  return (
+    <div className={styles.chatRoomMain}>
+      <div>
+        <div className={styles.messagesContainer}>
+          {messages.length > 0 && messagesToDisplay}
+          <div ref={lastMessage}></div>
+        </div>
+        <div className={styles.chatRoomInputContainer}>
+          <textarea
+            placeholder="your message"
+            className={styles.chatRoomInput}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+            value={newMessage}
+          />
+          <button
+            onClick={sendMessage}
+            disabled={newMessage !== "" ? false : true}
+            style={{
+              cursor: newMessage === "" ? "not-allowed" : "pointer",
+              backgroundColor:
+                newMessage === ""
+                  ? "rgb(111, 42, 72, 0.6)"
+                  : "rgb(111, 42, 72, 1)",
+            }}
+          >
+            send
+          </button>
+        </div>
       </div>
     </div>
   );
