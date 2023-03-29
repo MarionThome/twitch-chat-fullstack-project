@@ -18,7 +18,7 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const welcomeMessage = (bool, name) => {
-    if (bool) {
+    if (!bool) {
       setWelcome(`Welcome back ${name} !`);
     } else {
       setWelcome(

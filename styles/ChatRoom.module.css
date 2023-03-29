@@ -5,7 +5,7 @@
   justify-content: flex-end;
   align-items: flex-start;
   height: 85vh;
-  background-color: rgb(255, 255, 255, 0.9);
+  background-color: rgb(255, 255, 255, 0.2);
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   overflow: hidden;
@@ -17,13 +17,13 @@
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  padding-top: 100px;
+  padding-top: 150px;
 }
 
 .chatRoomInputContainer{
     width: 50vw;
     padding: 20px;
-    border-top: 1px solid #d8d8d8;
+    border-top: 1px solid rgb(216, 216, 216);
     background-color: white;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;

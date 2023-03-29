@@ -51,6 +51,7 @@ export default function Message(props) {
             opacity="0.6"
             cursor="pointer"
             size="1x"
+            color="white"
             onClick={() => editMessage()}
           />
           <div style={{marginLeft:"10px"}}>
@@ -59,7 +60,7 @@ export default function Message(props) {
             opacity="0.6"
             cursor="pointer"
             size="1x"
-            
+            color="white"
             onClick={() => removeMessage()}
           />
           </div>
