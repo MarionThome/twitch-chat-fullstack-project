@@ -6,7 +6,7 @@
   align-items: flex-start;
   height: 85vh;
   background-color: rgb(255, 255, 255, 0.9);
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   overflow: hidden;
 }
@@ -26,8 +26,8 @@
     border-top: 1px solid #d8d8d8;
     background-color: white;
     
-    border-bottom-left-radius: 18px;
-    border-bottom-right-radius: 18px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .chatRoomInputContainer textarea{

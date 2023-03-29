@@ -14,9 +14,28 @@
 .modalContent {
     background-color: white;
     max-height: 60%;
-    border-radius: 20px;
+    border-radius: 5px;
     padding: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.modalContent h2 {
+  margin-bottom: 5px;
+}
+
+.modalContent input {
+  height: 40px;
+    text-align: center;
+    width: 50%;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid grey;
+    color: #bc9a9a;
+    margin-bottom: 20px;
+}
+
+.modalContent input:focus {
+  outline: none;
 }

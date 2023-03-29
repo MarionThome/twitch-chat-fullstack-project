@@ -27,6 +27,8 @@ export default function Home() {
     }
   };
 
+  console.log("MessageList =>", messageList)
+
   useEffect(() => {
     const pusher = new Pusher(PUSHER_KEY, {
       cluster: PUSHER_CLUSTER,
@@ -44,7 +46,7 @@ export default function Home() {
         if (data.result) {
           setMessageList(
             data.messages.sort((first, sec) => {
-              return new Date(sec.date) + new Date(first.date);
+              return new Date(first.date) - new Date(sec.date);
             })
           );
           console.log("1 =>", messageList);
