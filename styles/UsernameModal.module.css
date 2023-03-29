@@ -39,3 +39,9 @@
 .modalContent input:focus {
   outline: none;
 }
+
+@media (max-width: 480px) {
+  .modalContent {
+    width : 90vw;
+  }
+}
