@@ -19,9 +19,8 @@ export default function ChatRoom(props) {
     scrollToBottom();
   }, [messages]);
 
-  const handleSubmit = (e) => {
-    if ((e.key === "Enter" || e.keyCode === 13) && newMessage) {
-      e.preventDefault();
+  const sendMessage = () => {
+    if(newMessage){
       const payload = {
         username: username,
         message: newMessage,
@@ -29,6 +28,13 @@ export default function ChatRoom(props) {
       axios.post("http://localhost:3000/send-message", payload);
       setNewMessage("");
       scrollToBottom();
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    if ((e.key === "Enter" || e.keyCode === 13)) {
+      e.preventDefault();
+      sendMessage()
     }
   };
 
@@ -67,9 +73,10 @@ export default function ChatRoom(props) {
           placeholder="your message"
           className={styles.chatRoomInput}
           onChange={(e) => setNewMessage(e.target.value)}
-          onKeyDown={handleSubmit}
+          onKeyDown={handleKeyDown}
           value={newMessage}
         />
+        <button onClick={sendMessage} disabled={newMessage !=="" ? false : true} style={{cursor : newMessage === "" ? "not-allowed" : "pointer", backgroundColor : newMessage === "" ?  "rgb(111, 42, 72, 0.6)" : "rgb(111, 42, 72, 1)" }}>send</button>
       </div>
 
       </div>

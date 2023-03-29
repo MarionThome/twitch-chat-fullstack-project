@@ -25,9 +25,9 @@
     padding: 20px;
     border-top: 1px solid #d8d8d8;
     background-color: white;
-    
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    text-align: right;
 }
 
 .chatRoomInputContainer textarea{
@@ -39,6 +39,20 @@
     font-size: 17px;
     font-family: sans-serif;
     color: #bc9a9a;
+}
+.chatRoomInputContainer button{
+    background-color: #6f2a48;
+    color: white;
+    font-size: 16px;
+    border: 0px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.34) 1.95px 1.95px 2.6px;
+}
+.chatRoomInputContainer button:focus{
+    box-shadow: none
 }
 
 .chatRoomInputContainer textarea:focus{
