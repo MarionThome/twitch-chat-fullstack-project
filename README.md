@@ -16,7 +16,7 @@ yarn dev
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env.local file
 
 `REACT_APP_PUSHER_KEY`
 
